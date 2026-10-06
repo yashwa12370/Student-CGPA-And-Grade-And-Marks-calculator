@@ -1,0 +1,329 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Student CGPA Calculator</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<aside>
+<h2>🎓 Student CGPA<br>Calculator</h2>
+<nav>
+<button class="active" onclick="page('dash',this)">▣ Dashboard</button>
+<button onclick="page('info',this)">♟ Student Info</button>
+<button onclick="page('marks',this)">▣ Marks & Grades</button>
+<button onclick="page('history',this)">▤ Semester History</button>
+<button onclick="page('target',this)">◎ Target CGPA</button>
+<button onclick="page('saved',this)">▣ Saved Students</button>
+<button onclick="page('settings',this)">⚙ Settings</button>
+<button onclick="dark()">☾ Dark Mode</button>
+</nav>
+<div class="brand">🎓<br><small>Better Grades<br>Brighter Future</small></div>
+</aside>
+
+<main>
+
+<header>
+<b>Student Academic Dashboard</b>
+<button onclick="dark()">☀️ / 🌙</button>
+</header>
+
+<!-- DASHBOARD -->
+<section id="dash" class="pg">
+<div class="welcome">
+<h1>Welcome Back! 👋</h1>
+<p>Calculate your GPA & CGPA easily and track your academic progress.</p>
+</div>
+
+<div class="stats">
+<div><small>Semester GPA</small><strong id="gpa">0.00</strong><em>↑ Current semester</em></div>
+<div><small>Current CGPA</small><strong id="cgpa">0.00</strong><em>↑ Overall progress</em></div>
+<div><small>Total Credits</small><strong id="credit">0</strong><em>Completed</em></div>
+<div><small>Overall Percentage</small><strong id="per">0%</strong><em>● Academic result</em></div>
+</div>
+
+<div class="card">
+<h3>Quick Actions</h3>
+<div class="actions">
+<button onclick="page('marks')">⊕ Add New Subject</button>
+<button onclick="page('history')">▣ Add Semester</button>
+<button onclick="page('target')">◎ Target CGPA</button>
+<button onclick="result()">▤ View Results</button>
+</div>
+</div>
+
+<div class="two">
+
+<div class="card">
+<h3>Result Summary</h3>
+
+<div class="circle">
+<span id="circle">0%</span>
+</div>
+
+<div class="mini">
+<div>Total Marks<b id="tm">0</b></div>
+<div>Obtained<b id="om">0</b></div>
+<div>Remaining<b id="rm">0</b></div>
+</div>
+
+<div class="mini">
+<div>Semester GPA<b id="g2">0.00</b></div>
+<div>CGPA<b id="c2">0.00</b></div>
+<div>Status<b class="green">Good Standing</b></div>
+</div>
+</div>
+
+<div class="card">
+<h3>Grade Distribution</h3>
+<div id="graph" class="graph"></div>
+</div>
+
+</div>
+</section>
+
+<!-- STUDENT INFO -->
+<section id="info" class="pg">
+
+<div class="card">
+<h3>Student Information</h3>
+
+<div class="grid">
+<label>Student Name
+<input id="name" placeholder="Ali Khan">
+</label>
+
+<label>Roll Number
+<input id="roll" placeholder="2024-CS-101">
+</label>
+
+<label>Semester
+<input id="sem" placeholder="4th Semester">
+</label>
+
+<label>Department / Program
+<input id="dept" placeholder="Computer Science">
+</label>
+
+<label>University / College
+<input id="uni" placeholder="ABC University">
+</label>
+
+<label>Academic Year
+<input id="year" placeholder="2024 - 2025">
+</label>
+</div>
+
+<button onclick="saveInfo()">Save Information</button>
+</div>
+
+<div class="card">
+<h3>University CGPA Criteria</h3>
+
+<p class="hint">
+Har university ka grading system different ho sakta hai.
+Neeche apni university ka criteria khud enter karein.
+</p>
+
+<label>
+Your Grading Criteria
+<input id="criteria" placeholder="90:A+:4,85:A:4,80:A-:3.7,75:B+:3.5,70:B:3,65:B-:2.7,60:C+:2.5,55:C:2,50:D:1">
+</label>
+
+<p class="format">
+Format: <b>Minimum Percentage : Grade : Grade Point</b>
+</p>
+
+<button onclick="saveCriteria()">Save Grading Criteria</button>
+</div>
+
+</section>
+
+<!-- MARKS -->
+<section id="marks" class="pg">
+
+<div class="card">
+
+<div class="title">
+<h3>Subjects & Marks</h3>
+<button onclick="add()">＋ Add Subject</button>
+</div>
+
+<div class="table">
+<table>
+<thead>
+<tr>
+<th>#</th>
+<th>Subject</th>
+<th>Credit</th>
+<th>Total</th>
+<th>Obtained</th>
+<th>%</th>
+<th>Grade</th>
+<th>GP</th>
+<th></th>
+</tr>
+</thead>
+
+<tbody id="rows"></tbody>
+</table>
+</div>
+
+<div class="foot">
+<b>Total Credits: <span id="fc">0</span></b>
+<b>Total Marks: <span id="ft">0</span></b>
+<b>Obtained Marks: <span id="fo">0</span></b>
+</div>
+
+</div>
+</section>
+
+<!-- HISTORY -->
+<section id="history" class="pg">
+
+<div class="card">
+
+<div class="title">
+<h3>Semester-wise CGPA</h3>
+</div>
+
+<div class="grid">
+
+<label>Semester
+<input id="sn" placeholder="1st Semester">
+</label>
+
+<label>GPA
+<input id="sg" type="number" step=".01" placeholder="3.50">
+</label>
+
+<label>Credits
+<input id="sc" type="number" placeholder="18">
+</label>
+
+</div>
+
+<button onclick="semester()">＋ Add Semester</button>
+
+<div class="table">
+<table>
+<thead>
+<tr>
+<th>Semester</th>
+<th>GPA</th>
+<th>Credits</th>
+<th>Action</th>
+</tr>
+</thead>
+<tbody id="hist"></tbody>
+</table>
+</div>
+
+</div>
+</section>
+
+<!-- TARGET -->
+<section id="target" class="pg">
+
+<div class="card">
+<h3>Target CGPA Calculator</h3>
+
+<div class="grid">
+
+<label>Current CGPA
+<input id="cc" type="number" step=".01" value="3.40">
+</label>
+
+<label>Completed Credits
+<input id="completed" type="number" value="54">
+</label>
+
+<label>Target CGPA
+<input id="tg" type="number" step=".01" value="3.60">
+</label>
+
+<label>Next Semester Credits
+<input id="next" type="number" value="18">
+</label>
+
+</div>
+
+<button onclick="target()">Calculate Required GPA</button>
+
+<div class="target" id="tr">
+Required GPA will appear here.
+</div>
+
+</div>
+</section>
+
+<!-- SAVED -->
+<section id="saved" class="pg">
+
+<div class="card">
+
+<div class="title">
+<h3>Saved Students</h3>
+<button onclick="saveStudent()">＋ Save Student</button>
+</div>
+
+<input class="search" id="search"
+placeholder="Search name or roll number"
+oninput="savedView()">
+
+<div class="table">
+<table>
+<thead>
+<tr>
+<th>#</th>
+<th>Name</th>
+<th>Roll</th>
+<th>CGPA</th>
+<th>Action</th>
+</tr>
+</thead>
+
+<tbody id="saveRows"></tbody>
+</table>
+</div>
+
+</div>
+</section>
+
+<!-- SETTINGS -->
+<section id="settings" class="pg">
+
+<div class="card">
+
+<h3>Calculator Settings</h3>
+
+<p class="hint">
+Aap apni university ke according grading criteria kabhi bhi change kar sakte hain.
+Change karne ke baad Save button press karein.
+</p>
+
+<label>
+University Grading Criteria
+<input id="criteria2"
+placeholder="90:A+:4,85:A:4,80:A-:3.7,75:B+:3.5">
+</label>
+
+<p class="format">
+Example:
+<b>90:A+:4, 85:A:4, 80:A-:3.7, 75:B+:3.5, 70:B:3</b>
+</p>
+
+<button onclick="saveCriteria()">Save Criteria</button>
+
+</div>
+</section>
+
+</main>
+
+<div id="toast"></div>
+
+<script src="script.js"></script>
+</body>
+</html>
